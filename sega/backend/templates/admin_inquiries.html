@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الاستفسارات - {{ site_settings.company_name }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="../static/assets/icons/logo2.png">
+</head>
+
+<body class="dashboard-body">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- الشريط الجانبي (نفس الموجود في الداشبورد) -->
+            {% include 'partials/sidebar_admin.html' %}
+
+            <!-- المحتوى الرئيسي -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+                <div class="d-flex justify-content-between align-items-center pt-4 pb-3 mb-4">
+                    <div>
+                        <h1 class="h3 mb-1 fw-bold text-primary">الاستفسارات</h1>
+                        <p class="text-muted mb-0">إدارة جميع الرسائل الواردة من نموذج التواصل</p>
+                    </div>
+                    <a href="{{ url_for('admin_dashboard_page') }}" class="btn btn-outline-secondary btn-sm">
+                        <i class="bi bi-arrow-right"></i> العودة للوحة التحكم
+                    </a>
+                </div>
+
+                <div class="card dashboard-card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-0 fw-bold">جميع الاستفسارات</h6>
+                            <small class="text-muted">عدد الاستفسارات: {{ inquiries|length }}</small>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-borderless mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>الاسم</th>
+                                        <th>البريد الإلكتروني</th>
+                                        <th>الهاتف</th>
+                                        <th>النوع</th>
+                                        <th>الموضوع</th>
+                                        <th>التاريخ</th>
+                                        <th>الحالة</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if inquiries %}
+                                    {% for inquiry in inquiries %}
+                                    <tr class="inquiry-row" data-id="{{ inquiry.id }}" data-name="{{ inquiry.name }}"
+                                        data-email="{{ inquiry.email }}" data-phone="{{ inquiry.phone }}"
+                                        data-category="{{ inquiry.category }}" data-subject="{{ inquiry.subject }}"
+                                        data-message="{{ inquiry.message }}" data-status="{{ inquiry.status }}"
+                                        data-created="{{ inquiry.created_at.strftime('%Y-%m-%d %H:%M') }}">
+
+                                        <td>{{ inquiry.id }}</td>
+                                        <td>{{ inquiry.name }}</td>
+                                        <td>{{ inquiry.email }}</td>
+                                        <td>{{ inquiry.phone }}</td>
+                                        <td>{{ inquiry.category }}</td>
+                                        <td>{{ inquiry.subject }}</td>
+                                        <td>{{ inquiry.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                                        <td>
+                                            <span class="badge
+                {% if inquiry.status == 'new' %} bg-primary
+                {% elif inquiry.status == 'in_progress' %} bg-warning
+                {% else %} bg-success
+                {% endif %}
+            ">
+                                                {{ inquiry.status }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="8" class="text-center text-muted py-4">
+                                            لا توجد استفسارات بعد
+                                        </td>
+                                    </tr>
+                                    {% endif %}
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- مودال عرض تفاصيل الاستفسار -->
+    <div class="modal fade" id="inquiryModal" tabindex="-1" aria-labelledby="inquiryModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="inquiryModalLabel">تفاصيل الاستفسار</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <strong>الاسم:</strong>
+                        <p class="mb-1" id="inqName"></p>
+                    </div>
+                    <div class="mb-3">
+                        <strong>البريد الإلكتروني:</strong>
+                        <p class="mb-1" id="inqEmail"></p>
+                    </div>
+                    <div class="mb-3">
+                        <strong>رقم الهاتف:</strong>
+                        <p class="mb-1" id="inqPhone"></p>
+                    </div>
+                    <div class="mb-3">
+                        <strong>النوع:</strong>
+                        <p class="mb-1" id="inqCategory"></p>
+                    </div>
+                    <div class="mb-3">
+                        <strong>الموضوع:</strong>
+                        <p class="mb-1" id="inqSubject"></p>
+                    </div>
+                    <div class="mb-3">
+                        <strong>التاريخ:</strong>
+                        <p class="mb-1" id="inqCreated"></p>
+                    </div>
+                    <div class="mb-3">
+                        <strong>الحالة:</strong>
+                        <p class="mb-1" id="inqStatus"></p>
+                    </div>
+                    <div class="mb-3">
+                        <strong>نص الرسالة:</strong>
+                        <div class="p-3 rounded border bg-light" id="inqMessage" style="white-space: pre-wrap;"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!-- ممكن لاحقاً نضيف أزرار تغيير الحالة أو إنشاء تذكرة من هنا -->
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const rows = document.querySelectorAll('.inquiry-row');
+            const modalElement = document.getElementById('inquiryModal');
+            const inquiryModal = new bootstrap.Modal(modalElement);
+
+            rows.forEach(row => {
+                row.style.cursor = 'pointer'; // عشان يبان أنه قابل للضغط
+
+                row.addEventListener('click', function () {
+                    // قراءة البيانات من الـ data-attributes
+                    const name = this.dataset.name || '';
+                    const email = this.dataset.email || '';
+                    const phone = this.dataset.phone || '';
+                    const category = this.dataset.category || '';
+                    const subject = this.dataset.subject || '';
+                    const message = this.dataset.message || '';
+                    const created = this.dataset.created || '';
+                    const status = this.dataset.status || '';
+
+                    // تعبئة عناصر المودال
+                    document.getElementById('inqName').textContent = name;
+                    document.getElementById('inqEmail').textContent = email;
+                    document.getElementById('inqPhone').textContent = phone || '-';
+                    document.getElementById('inqCategory').textContent = category;
+                    document.getElementById('inqSubject').textContent = subject;
+                    document.getElementById('inqCreated').textContent = created;
+                    document.getElementById('inqStatus').textContent = status;
+                    document.getElementById('inqMessage').textContent = message;
+
+                    // فتح المودال
+                    inquiryModal.show();
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

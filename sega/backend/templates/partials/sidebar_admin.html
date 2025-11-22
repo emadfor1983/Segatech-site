@@ -1,0 +1,113 @@
+<nav class="col-md-3 col-lg-2 d-md-block sidebar">
+    <div class="position-sticky pt-3 d-flex flex-column h-100">
+        <!-- الهيدر -->
+        <div class="sidebar-header p-4 border-bottom">
+            <div class="d-flex align-items-center justify-content-center">
+                <h5 class="mb-0 text-gradient fw-bold">{{ site_settings.company_name }}</h5>
+            </div>
+            <div class="sidebar-subtitle text-center mt-2">
+                <small class="text-muted">نظام إدارة المحتوى</small>
+            </div>
+        </div>
+
+        <!-- القائمة -->
+        <ul class="nav flex-column mt-4 sidebar-menu">
+
+            <!-- لوحة التحكم -->
+            <li class="nav-item mb-2">
+                <a class="nav-link sidebar-link {% if request.endpoint == 'admin_dashboard_page' %}active{% endif %}"
+                    href="{{ url_for('admin_dashboard_page') }}">
+                    <span class="icon-wrapper">
+                        <i class="bi bi-speedometer2"></i>
+                    </span>
+                    <span class="link-text">لوحة التحكم</span>
+                </a>
+            </li>
+
+            <!-- الاستفسارات -->
+            <li class="nav-item mb-2">
+                <a class="nav-link sidebar-link {% if request.endpoint == 'admin_inquiries' %}active{% endif %}"
+                    href="{{ url_for('admin_inquiries') }}">
+                    <span class="icon-wrapper">
+                        <i class="bi bi-question-circle"></i>
+                    </span>
+                    <span class="link-text">الاستفسارات</span>
+                </a>
+            </li>
+
+            <!-- فريق العمل -->
+            <li class="nav-item mb-2">
+                <a class="nav-link sidebar-link {% if request.endpoint in ['admin_team', 'admin_team_new', 'admin_team_edit'] %}active{% endif %}"
+                    href="{{ url_for('admin_team') }}">
+                    <span class="icon-wrapper">
+                        <i class="bi bi-people-fill"></i>
+                    </span>
+                    <span class="link-text">فريق العمل</span>
+                </a>
+            </li>
+
+            <!-- المشاريع -->
+            <li class="nav-item mb-2">
+                <a class="nav-link sidebar-link {% if request.endpoint in ['admin_projects', 'admin_project_new', 'admin_project_edit'] %}active{% endif %}"
+                    href="{{ url_for('admin_projects') }}">
+                    <span class="icon-wrapper">
+                        <i class="bi bi-folder"></i>
+                    </span>
+                    <span class="link-text">المشاريع</span>
+                </a>
+            </li>
+
+            <!-- العملاء -->
+            <li class="nav-item mb-2">
+                <a class="nav-link sidebar-link {% if request.endpoint in ['admin_clients', 'admin_client_new', 'admin_client_edit'] %}active{% endif %}"
+                    href="{{ url_for('admin_clients') }}">
+                    <span class="icon-wrapper">
+                        <i class="bi bi-people"></i>
+                    </span>
+                    <span class="link-text">العملاء</span>
+                </a>
+            </li>
+            <!-- الشركاء -->
+            <li class="nav-item mb-2">
+                <a class="nav-link sidebar-link
+       {% if request.endpoint in ['admin_partners', 'admin_partner_new', 'admin_partner_edit'] %}active{% endif %}"
+                    href="{{ url_for('admin_partners') }}">
+                    <span class="icon-wrapper">
+                        <i class="bi bi-award"></i>
+                    </span>
+                    <span class="link-text">الشركاء</span>
+                </a>
+            </li>
+
+
+
+            <!-- الإعدادات -->
+            <li class="nav-item mb-2">
+                <a class="nav-link sidebar-link {% if request.endpoint == 'admin_settings' %}active{% endif %}"
+                    href="{{ url_for('admin_settings') }}">
+                    <span class="icon-wrapper">
+                        <i class="bi bi-gear"></i>
+                    </span>
+                    <span class="link-text">الإعدادات</span>
+                </a>
+            </li>
+
+            {# 🔴 لا يوجد أي عنصر للتذاكر هنا (تم حذفه كما طلبت) #}
+        </ul>
+
+        <!-- معلومات المستخدم -->
+        <div class="sidebar-user mt-auto p-3 border-top">
+            <div class="d-flex align-items-center">
+                <div class="user-info flex-grow-1">
+                    <h6 class="mb-0">مدير النظام</h6>
+                    <small class="text-muted">مسؤول</small>
+                </div>
+                <div class="user-actions">
+                    <a href="{{ url_for('admin_logout') }}" class="btn btn-sm btn-outline-danger" title="تسجيل الخروج">
+                        <i class="bi bi-box-arrow-left"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

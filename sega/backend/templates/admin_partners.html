@@ -1,0 +1,102 @@
+{% extends "admin_layout.html" %}
+
+{% block title %}الشركاء - {{ site_settings.company_name }}{% endblock %}
+{% block page_title %}الشركاء{% endblock %}
+{% block page_subtitle %}إدارة شركاء النجاح وشعاراتهم الظاهرة في الموقع{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h6 class="mb-1 fw-bold">قائمة الشركاء</h6>
+        <small class="text-muted">عدد الشركاء: {{ partners|length }}</small>
+    </div>
+
+    <a href="{{ url_for('admin_partner_new') }}" class="btn btn-primary btn-sm">
+        <i class="bi bi-plus-circle me-1"></i> إضافة شريك جديد
+    </a>
+</div>
+
+<div class="card dashboard-card">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover table-borderless mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>الشعار</th>
+                        <th>الاسم</th>
+                        <th>الموقع</th>
+                        <th>الترتيب</th>
+                        <th>الحالة</th>
+                        <th>إجراءات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if partners %}
+                    {% for partner in partners %}
+                    <tr>
+                        <td>{{ partner.id }}</td>
+                        <td>
+                            {% if partner.logo_url %}
+                            {% set logo_path = partner.logo_url|replace('\\', '/') %}
+
+                            {# لو الرابط خارجي كامل http/https #}
+                            {% if 'http://' in logo_path or 'https://' in logo_path %}
+                            <img src="{{ logo_path }}" alt="{{ partner.name }}" style="height:40px;">
+                            {% else %}
+                            {# ملف داخل static #}
+                            <img src="{{ url_for('static', filename=logo_path) }}" alt="{{ partner.name }}"
+                                style="height:40px;">
+                            {% endif %}
+                            {% else %}
+                            <span class="text-muted">لا يوجد</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ partner.name }}</td>
+                        <td>
+                            {% if partner.website %}
+                            <a href="{{ partner.website }}" target="_blank" rel="noopener">
+                                {{ partner.website }}
+                            </a>
+                            {% else %}
+                            <span class="text-muted">لا يوجد</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ partner.sort_order }}</td>
+                        <td>
+                            {% if partner.is_active %}
+                            <span class="badge bg-success">نشط</span>
+                            {% else %}
+                            <span class="badge bg-secondary">مخفي</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ url_for('admin_partner_edit', partner_id=partner.id) }}"
+                                class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <form method="POST" action="{{ url_for('admin_partner_delete', partner_id=partner.id) }}"
+                                style="display:inline-block;"
+                                onsubmit="return confirm('هل أنت متأكد من حذف هذا الشريك؟');">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="7" class="text-center text-muted py-4">
+                            لا يوجد شركاء حتى الآن، يمكنك إضافة شريك جديد من الزر في الأعلى.
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,152 @@
+{% extends "admin_layout.html" %}
+
+{% block title %}إدارة المشاريع - {{ site_settings.company_name }}{% endblock %}
+{% block page_title %}{% if project %}تعديل مشروع{% else %}إضافة مشروع جديد{% endif %}{% endblock %}
+{% block page_subtitle %}قم بإدارة بيانات مشاريع {{ site_settings.company_name }} بسهولة{% endblock %}
+
+{% block content %}
+
+<div class="row mb-4">
+    <div class="col-lg-8">
+        <div class="card dashboard-card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="mb-0 fw-bold">
+                        {% if project %}تعديل مشروع{% else %}إضافة مشروع جديد{% endif %}
+                    </h6>
+                    <small class="text-muted">
+                        {% if project %}
+                        قم بتعديل بيانات المشروع ثم احفظ التغييرات
+                        {% else %}
+                        قم بملء بيانات المشروع الجديد ثم احفظه
+                        {% endif %}
+                    </small>
+                </div>
+                <a href="{{ url_for('admin_projects') }}" class="btn btn-sm btn-outline-secondary">
+                    <i class="bi bi-arrow-right"></i> رجوع لقائمة المشاريع
+                </a>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    <!-- العنوان -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">عنوان المشروع</label>
+                        <input type="text" name="title" class="form-control"
+                            value="{{ project.title if project else '' }}" required>
+                    </div>
+
+                    <!-- الوصف -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">وصف المشروع</label>
+                        <textarea name="description" class="form-control" rows="4"
+                            required>{{ project.description if project else '' }}</textarea>
+                    </div>
+
+                    <!-- التصنيف و الحالة -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">التصنيف</label>
+                            <select name="category" class="form-select" required>
+                                <option value="digital_marketing" {% if project.category=='digital_marketing'
+                                    %}selected{% endif %}>التسويق الرقمي</option>
+                                <option value="business_management" {% if project.category=='business_management'
+                                    %}selected{% endif %}>إدارة الأعمال</option>
+                                <option value="technology_solutions" {% if project.category=='technology_solutions'
+                                    %}selected{% endif %}>الحلول التقنية</option>
+                                <option value="project_management" {% if project.category=='project_management'
+                                    %}selected{% endif %}>إدارة المشاريع</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">الحالة</label>
+                            <select name="status" class="form-select">
+                                <option value="completed" {% if project.status=='completed' %}selected{% endif %}>مكتمل
+                                </option>
+                                <option value="in_progress" {% if project.status=='in_progress' %}selected{% endif %}>
+                                    قيد التنفيذ</option>
+                                <option value="on_hold" {% if project.status=='on_hold' %}selected{% endif %}>معلق
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- السنة -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">سنة التنفيذ</label>
+                        <input type="number" name="year" class="form-control"
+                            value="{{ project.year if project.year else '' }}" placeholder="مثال: 2025">
+                    </div>
+
+                    <!-- العميل -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">اسم العميل</label>
+                        <input type="text" name="client" class="form-control"
+                            value="{{ project.client if project.client else '' }}" placeholder="اسم الشركة / العميل">
+                    </div>
+
+                    <!-- مدة التنفيذ -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">مدة التنفيذ</label>
+                        <input type="text" name="duration" class="form-control"
+                            value="{{ project.duration if project.duration else '' }}" placeholder="مثال: 3 أشهر">
+                    </div>
+
+                    <!-- صورة المشروع -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">صورة المشروع</label>
+                        <input type="file" name="image_file" class="form-control">
+                        {% if project.image_url %}
+                        <small>الصورة الحالية:</small><br>
+                        <img src="{{ url_for('static', filename=project.image_url) }}" width="100">
+                        {% endif %}
+                    </div>
+
+                    <!-- التقنيات -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">التقنيات المستخدمة</label>
+                        <input type="text" name="technologies" class="form-control"
+                            value="{{ technologies_text if project else '' }}"
+                            placeholder="مثال: Flask, React, PostgreSQL">
+                    </div>
+
+                    <div class="d-flex justify-content-end mt-3">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save me-1"></i>
+                            {% if project %}حفظ التغييرات{% else %}حفظ المشروع{% endif %}
+                        </button>
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+
+    {% if project %}
+    <!-- كرت صغير للمراجعة السريعة -->
+    <div class="col-lg-4">
+        <div class="card dashboard-card">
+            <div class="card-header">
+                <h6 class="mb-0 fw-bold">ملخص المشروع</h6>
+            </div>
+            <div class="card-body">
+                <p><strong>العنوان:</strong> {{ project.title }}</p>
+                <p><strong>العميل:</strong> {{ project.client or 'غير محدد' }}</p>
+                <p><strong>الحالة:</strong>
+                    {% if project.status == 'completed' %}
+                    <span class="badge bg-success">مكتمل</span>
+                    {% elif project.status == 'in_progress' %}
+                    <span class="badge bg-warning text-dark">قيد التنفيذ</span>
+                    {% else %}
+                    <span class="badge bg-secondary">معلق</span>
+                    {% endif %}
+                </p>
+                <p><strong>السنة:</strong> {{ project.year or 'غير محددة' }}</p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

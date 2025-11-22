@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اتصل بنا - {{ site_settings.company_name }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="../static/assets/icons/logo2.png">
+</head>
+
+<body>
+    <!-- شريط التنقل المحسن -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('index') }}">
+                <span class="fw-bold text-gradient">{{ site_settings.company_name }}</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link " href="{{ url_for('index') }}">الرئيسية</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('about') }}">من نحن</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('services') }}">الخدمات</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('projects') }}">المشاريع</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('contact') }}">اتصل بنا</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="{{ url_for('admin_dashboard_page') }}">Admin</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- رأس الصفحة المحسن -->
+    <section class="page-header py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center fade-in-up">
+                    <h1 class="display-4 fw-bold text-primary mb-3">اتصل بنا</h1>
+                    <p class="lead text-muted">نحن هنا للإجابة على استفساراتك ومساعدتك في بدء مشروعك القادم</p>
+                    <div class="page-header-ornament">
+                        <div class="ornament-dot"></div>
+                        <div class="ornament-dot"></div>
+                        <div class="ornament-dot"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم معلومات الاتصال المحسن -->
+    <section class="contact-info py-5">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12 text-center fade-in-up">
+                    <span class="section-badge">تواصل معنا</span>
+                    <h2 class="section-title">كيف يمكننا مساعدتك؟</h2>
+                    <p class="section-subtitle">لا تتردد في التواصل معنا عبر أي من القنوات التالية</p>
+                </div>
+            </div>
+            <div class="row stagger-children">
+                <div class="col-md-4 mb-4 stagger-item">
+                    <div class="card contact-method-card text-center h-100 border-0 hover-lift">
+                        <div class="card-body p-4">
+                            <div class="contact-icon mb-3">
+                                <i class="bi bi-telephone"></i>
+                            </div>
+                            <h5 class="card-title mb-3">اتصل بنا</h5>
+                            <div class="contact-details">
+                                <p class="card-text mb-2">
+                                    <a href="https://wa.me/963968000580" target="_blank"
+                                        class="text-white-60 hover-white">
+                                        +963 968 000 580
+                                    </a>
+                                </p>
+                            </div>
+                            <div class="contact-action mt-3">
+                                <a href="tel:+966123456789" class="btn btn-outline-primary btn-sm">
+                                    <i class="bi bi-telephone-outbound me-1"></i>اتصل الآن
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4 stagger-item">
+                    <div class="card contact-method-card text-center h-100 border-0 hover-lift">
+                        <div class="card-body p-4">
+                            <div class="contact-icon mb-3">
+                                <i class="bi bi-envelope"></i>
+                            </div>
+                            <h5 class="card-title mb-3">راسلنا</h5>
+                            <div class="contact-details">
+                                <p class="card-text mb-0">
+                                    <a href="mailto:ceo@segatech.site" class="text-white-60 hover-white">
+                                        ceo@segatech.site
+                                    </a>
+                                </p>
+                            </div>
+                            <div class="contact-action mt-3">
+                                <a href="mailto:ceo@segatech.site" class="btn btn-outline-primary btn-sm">
+                                    <i class="bi bi-send me-1"></i>ارسل بريد
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4 stagger-item">
+                    <div class="card contact-method-card text-center h-100 border-0 hover-lift">
+                        <div class="card-body p-4">
+                            <div class="contact-icon mb-3">
+                                <i class="bi bi-geo-alt"></i>
+                            </div>
+                            <h5 class="card-title mb-3">زورنا</h5>
+                            <div class="contact-details">
+                                <p class="card-text mb-2">
+                                    <i class="bi bi-geo-alt text-primary me-2"></i>
+                                    الجمهورية العربية السورية
+                                </p>
+                                <p class="card-text mb-0">
+                                    <i class="bi bi-building text-primary me-2"></i>
+                                    دمشق
+                                </p>
+                            </div>
+                            <div class="contact-action mt-3">
+                                <a href="#location" class="btn btn-outline-primary btn-sm smooth-scroll">
+                                    <i class="bi bi-map me-1"></i>عرض الموقع
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+
+    <!-- قسم نموذج الاتصال المحسن -->
+    <section class="contact-form py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 mx-auto">
+                    <div class="card contact-form-card border-0 shadow-custom">
+                        <div class="card-body p-5">
+                            <div class="row align-items-center">
+                                <div class="col-lg-6 mb-4 mb-lg-0">
+                                    <div class="form-intro">
+                                        <span class="section-badge">ارسل رسالة</span>
+                                        <h3 class="mb-3">لنتحدث عن مشروعك</h3>
+                                        <p class="text-muted mb-4">سنقوم بالرد على استفسارك في غضون 24 ساعة. نحن هنا
+                                            لمساعدتك في تحقيق أهدافك الرقمية.</p>
+                                        <div class="form-features">
+                                            <div class="feature-item d-flex align-items-center mb-2">
+                                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                                <span>رد سريع خلال 24 ساعة</span>
+                                            </div>
+                                            <div class="feature-item d-flex align-items-center mb-2">
+                                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                                <span>استشارة مجانية</span>
+                                            </div>
+                                            <div class="feature-item d-flex align-items-center">
+                                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                                <span>حلول مخصصة لاحتياجاتك</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <form id="contactForm" class="needs-validation" novalidate>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="name" class="form-label">
+                                                    <i class="bi bi-person me-1 text-primary"></i>
+                                                    الاسم الكامل *
+                                                </label>
+                                                <input type="text" class="form-control" id="name" required
+                                                    placeholder="أدخل اسمك الكامل">
+                                                <div class="invalid-feedback">يرجى إدخال الاسم الكامل</div>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="email" class="form-label">
+                                                    <i class="bi bi-envelope me-1 text-primary"></i>
+                                                    البريد الإلكتروني *
+                                                </label>
+                                                <input type="email" class="form-control" id="email" required
+                                                    placeholder="example@domain.com">
+                                                <div class="invalid-feedback">يرجى إدخال بريد إلكتروني صحيح</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="phone" class="form-label">
+                                                <i class="bi bi-telephone me-1 text-primary"></i>
+                                                رقم الهاتف
+                                            </label>
+                                            <input type="tel" class="form-control" id="phone"
+                                                placeholder="+966 5X XXX XXXX">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="category" class="form-label">
+                                                <i class="bi bi-tags me-1 text-primary"></i>
+                                                نوع الاستفسار *
+                                            </label>
+                                            <select class="form-select" id="category" required>
+                                                <option value="" selected disabled>اختر نوع الاستفسار</option>
+                                                <option value="technical">دعم فني</option>
+                                                <option value="sales">استفسار مبيعات</option>
+                                                <option value="partnership">شراكة</option>
+                                                <option value="general">استفسار عام</option>
+                                                <option value="complaint">شكوى</option>
+                                                <option value="quote">طلب عرض سعر</option>
+                                            </select>
+                                            <div class="invalid-feedback">يرجى اختيار نوع الاستفسار</div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="subject" class="form-label">
+                                                <i class="bi bi-chat-dots me-1 text-primary"></i>
+                                                الموضوع *
+                                            </label>
+                                            <input type="text" class="form-control" id="subject" required
+                                                placeholder="موضوع الرسالة">
+                                            <div class="invalid-feedback">يرجى إدخال موضوع الرسالة</div>
+                                        </div>
+
+                                        <div class="mb-4">
+                                            <label for="message" class="form-label">
+                                                <i class="bi bi-pencil me-1 text-primary"></i>
+                                                الرسالة *
+                                            </label>
+                                            <textarea class="form-control" id="message" rows="5" required
+                                                placeholder="اكتب رسالتك هنا..."></textarea>
+                                            <div class="invalid-feedback">يرجى إدخال محتوى الرسالة</div>
+                                            <div class="form-text">الحد الأقصى للرسالة 1000 حرف</div>
+                                        </div>
+
+                                        <div class="d-grid">
+                                            <button type="submit" class="btn btn-primary btn-lg">
+                                                <i class="bi bi-send me-2"></i>
+                                                إرسال الرسالة
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم الأسئلة الشائعة للاتصال -->
+    <section class="contact-faq py-5">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12 text-center fade-in-up">
+                    <span class="section-badge">أسئلة شائعة</span>
+                    <h2 class="section-title">أسئلة متكررة حول الاتصال بنا</h2>
+                    <p class="section-subtitle">إجابات على أكثر الأسئلة شيوعاً حول التواصل مع {{
+                        site_settings.company_name }}</p>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="accordion custom-accordion" id="contactFaqAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#contactFaq1">
+                                    <i class="bi bi-question-circle me-2 text-primary"></i>
+                                    ما هي مدة الرد على الاستفسارات؟
+                                </button>
+                            </h2>
+                            <div id="contactFaq1" class="accordion-collapse collapse show"
+                                data-bs-parent="#contactFaqAccordion">
+                                <div class="accordion-body">
+                                    نهدف للرد على جميع الاستفسارات خلال 24 ساعة عمل. بالنسبة للاستفسارات العاجلة، يمكنك
+                                    الاتصال بنا مباشرة على الأرقام المخصصة للدعم الفني.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#contactFaq2">
+                                    <i class="bi bi-question-circle me-2 text-primary"></i>
+                                    هل تقدمون استشارات مجانية؟
+                                </button>
+                            </h2>
+                            <div id="contactFaq2" class="accordion-collapse collapse"
+                                data-bs-parent="#contactFaqAccordion">
+                                <div class="accordion-body">
+                                    نعم، نقدم استشارة أولية مجانية لمشاريعكم. يمكنكم حجز موعد من خلال نموذج الاتصال أو
+                                    الاتصال بنا مباشرة.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#contactFaq3">
+                                    <i class="bi bi-question-circle me-2 text-primary"></i>
+                                    ما هي ساعات العمل الرسمية؟
+                                </button>
+                            </h2>
+                            <div id="contactFaq3" class="accordion-collapse collapse"
+                                data-bs-parent="#contactFaqAccordion">
+                                <div class="accordion-body">
+                                    نعمل من الأحد إلى الخميس من 9:00 صباحاً حتى 6:00 مساءً. أما يوم الجمعة فمن 1:00
+                                    ظهراً حتى 6:00 مساءً. الدعم الفني متاح على مدار 24 ساعة.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم خرائط جوجل المحسن -->
+    <section class="map-section py-5" id="location">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12 text-center fade-in-up">
+                    <span class="section-badge">موقعنا</span>
+                    <h2 class="section-title">زورنا في مقرنا</h2>
+                    <p class="section-subtitle">تعرف على موقعنا وزيارتنا للقاء فريقنا</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="map-container rounded-custom shadow-custom overflow-hidden">
+                        <div class="map-placeholder position-relative">
+                            <div
+                                class="map-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
+                                <div class="map-content text-center text-white">
+                                    <i class="bi bi-map display-1 mb-3"></i>
+                                    <h4 class="mb-2">خريطة موقعنا</h4>
+                                    <p class="mb-3">دمشق - الجمهورية العربية السورية </p>
+                                    <a href="https://maps.google.com" target="_blank" class="btn btn-light">
+                                        <i class="bi bi-geo-alt me-2"></i>فتح في خرائط جوجل
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- هنا سيتم دمج خرائط جوجل لاحقاً -->
+                            <div style="height: 400px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- معلومات الموقع -->
+            <div class="row mt-4">
+                <div class="col-lg-4 mb-3">
+                    <div class="location-info-card p-3 rounded-custom">
+                        <i class="bi bi-geo-alt-fill text-primary mb-2 d-block"></i>
+                        <h6>العنوان</h6>
+                        <p class="text-muted mb-0">دمشق <br>الجمهورية العربية السورية </p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-3">
+                    <div class="location-info-card p-3 rounded-custom">
+                        <i class="bi bi-clock-fill text-primary mb-2 d-block"></i>
+                        <h6>ساعات الزيارة</h6>
+                        <p class="text-muted mb-0">الأحد - الخميس: 9:00 ص - 6:00 م<br>الجمعة: 1:00 م - 6:00 م</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-3">
+                    <div class="location-info-card p-3 rounded-custom">
+                        <i class="bi bi-telephone-fill text-primary mb-2 d-block"></i>
+                        <h6>حجز موعد</h6>
+                        <p class="text-muted mb-0">يرجى الاتصال مسبقاً<br>لحجز موعد للزيارة</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم دعوة للعمل -->
+    <section class="cta-section py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8 fade-in-left">
+                    <h3 class="mb-3 text-white">مستعد لبدء محادثتنا الأولى؟</h3>
+                    <p class="mb-0 text-white-80">اتصل بنا الآن وابدأ رحلة تحويل أفكارك إلى واقع رقمي ملموس</p>
+                </div>
+                <div class="col-lg-4 text-lg-end text-center mt-3 mt-lg-0 fade-in-right">
+                    <a href="tel:+966123456789" class="btn btn-light btn-lg hover-lift me-2">
+                        <i class="bi bi-telephone me-2"></i>اتصل الآن
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- التذييل المحسن -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5 class="mb-3 text-gradient">{{ site_settings.company_name }}</h5>
+                    <p class="mb-3 text-white-60">شركة رائدة في تقديم الحلول التقنية المتكاملة والخدمات الرقمية
+                        المبتكرة.</p>
+                    <div class="social-links">
+                        {% if site_settings.facebook %}
+                        <a href="{{ site_settings.facebook }}" class="social-link" target="_blank"><i
+                                class="bi bi-facebook"></i></a>
+                        {% endif %}
+
+                        {% if site_settings.instagram %}
+                        <a href="{{ site_settings.instagram }}" class="social-link" target="_blank"><i
+                                class="bi bi-instagram"></i></a>
+                        {% endif %}
+
+                        {% if site_settings.linkedin %}
+                        <a href="{{ site_settings.linkedin }}" class="social-link" target="_blank"><i
+                                class="bi bi-linkedin"></i></a>
+                        {% endif %}
+
+                        {% if site_settings.github %}
+                        <a href="{{ site_settings.github }}" class="social-link" target="_blank"><i
+                                class="bi bi-github"></i></a>
+                        {% endif %}
+                    </div>
+
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <h5 class="mb-3">روابط سريعة</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="index.html" class="text-white-60 hover-white">الرئيسية</a></li>
+                        <li class="mb-2"><a href="about.html" class="text-white-60 hover-white">من نحن</a></li>
+                        <li class="mb-2"><a href="services.html" class="text-white-60 hover-white">الخدمات</a></li>
+                        <li class="mb-2"><a href="projects.html" class="text-white-60 hover-white">المشاريع</a></li>
+                        <li><a href="contact.html" class="text-white-60 hover-white">اتصل بنا</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5 class="mb-3">خدماتنا</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <a href="{{ url_for('services') }}#digital-marketing" class="text-white-60 hover-white">
+                                التسويق الرقمي
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="{{ url_for('services') }}#project-management" class="text-white-60 hover-white">
+                                إدارة المشاريع
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="{{ url_for('services') }}#technology-solutions" class="text-white-60 hover-white">
+                                الحلول التقنية
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="{{ url_for('services') }}#business-management" class="text-white-60 hover-white">
+                                إدارة الأعمال
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h5 class="mb-3">معلومات الاتصال</h5>
+                    <ul class="list-unstyled">
+
+                        <li class="mb-2 d-flex align-items-center">
+                            <i class="bi bi-geo-alt text-primary me-2"></i>
+                            <span class="text-white-60">{{ site_settings.address }}</span>
+                        </li>
+
+                        <li class="mb-2 d-flex align-items-center">
+                            <i class="bi bi-telephone text-primary me-2"></i>
+                            <a href="https://wa.me/{{ site_settings.whatsapp_number }}"
+                                class="text-white-60 hover-white" target="_blank">
+                                {{ site_settings.phone_number }}
+                            </a>
+                        </li>
+
+                        <li class="mb-2 d-flex align-items-center">
+                            <i class="bi bi-envelope text-primary me-2"></i>
+                            <a href="mailto:{{ site_settings.official_email }}" class="text-white-60 hover-white">
+                                {{ site_settings.official_email }}
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+            <hr class="my-4 border-white-20">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0 text-white-60">
+                        جميع الحقوق محفوظة &copy; {{ site_settings.company_name }}
+                        <span id="currentYear"></span>
+                    </p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <a href="#" class="text-white-60 hover-white me-3">سياسة الخصوصية</a>
+                    <a href="#" class="text-white-60 hover-white">شروط الاستخدام</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- زر العودة للأعلى -->
+    <button id="backToTop" class="btn btn-primary back-to-top">
+        <i class="bi bi-chevron-up"></i>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/js/main.js"></script>
+    <script src="../static/js/contact.js"></script>
+
+</body>
+
+</html>

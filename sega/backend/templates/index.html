@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ site_settings.company_name }} - حلول تكنولوجية متكاملة</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="../static/assets/icons/logo2.png">
+</head>
+
+
+
+<body>
+    <!-- شريط التنقل المحسن -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('index') }}">
+                <span class="fw-bold text-gradient">{{ site_settings.company_name }}</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('index') }}">الرئيسية</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('about') }}">من نحن</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('services') }}">الخدمات</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('projects') }}">المشاريع</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('contact') }}">اتصل بنا</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="{{ url_for('admin_dashboard_page') }}">Admin</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- قسم الهيرو المحسن -->
+    <section class="hero-section ">
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-md-6 fade-in-left">
+                    <h1 class="display-4 fw-bold text-primary mb-4">حلول تكنولوجية مبتكرة لمستقبل أفضل</h1>
+                    <p class="lead mb-4">نقدم في {{ site_settings.company_name }} أحدث الحلول التقنية لتلبية احتياجات
+                        عملك وتطويره. نحن نبتكر
+                        وننفذ حلولاً رقمية متكاملة تساعد عملك على النمو والازدهار.</p>
+                    <div class="d-flex gap-3 flex-wrap">
+                        <a href="{{ url_for('contact') }}" class="btn btn-primary btn-lg px-4 hover-lift">
+                            <i class="bi bi-rocket-takeoff me-2"></i>ابدأ مشروعك الآن
+                        </a>
+                        <a href="#services" class="btn btn-outline-primary btn-lg px-4 hover-lift smooth-scroll">
+                            <i class="bi bi-search me-2"></i>استكشف خدماتنا
+                        </a>
+                    </div>
+                    <div class="mt-4 d-flex flex-wrap gap-3">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                            <small>ضمان الجودة</small>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                            <small>دعم فني متكامل</small>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                            <small>أسعار تنافسية</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 text-center">
+                    <div class="hero-image-container position-relative ">
+                        <img src="{{ url_for('static', filename='assets/images/logo.jpeg') }}" alt="Segatech Solutions"
+                            class="img-fluid hero-image rounded-custom shadow-custom">
+                        <div class="floating-elements">
+                            <div class="floating-element element-1">
+                                <i class="bi bi-code-slash text-primary"></i>
+                            </div>
+                            <div class="floating-element element-2">
+                                <i class="bi bi-phone text-warning"></i>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم الإحصائيات المحسن -->
+    <section class="stats-section py-5">
+        <div class="container">
+            <div class="row text-center stagger-children">
+                <div class="col-md-3 col-6 mb-4 stagger-item">
+                    <div class="stat-item glass-effect p-4 rounded-custom">
+                        <i class="bi bi-folder-check display-6 text-white mb-3"></i>
+                        <h3 class="display-4 fw-bold text-white mb-2"
+                            data-count="{{ stats_public.completed_projects }}">0</h3>
+                        <p class="text-white-80 mb-0">مشروع مكتمل</p>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-6 mb-4 stagger-item">
+                    <div class="stat-item glass-effect p-4 rounded-custom">
+                        <i class="bi bi-emoji-smile display-6 text-white mb-3"></i>
+                        <h3 class="display-4 fw-bold text-white mb-2" data-count="{{ stats_public.happy_clients }}">0
+                        </h3>
+                        <p class="text-white-80 mb-0">عميل راضٍ</p>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-6 mb-4 stagger-item">
+                    <div class="stat-item glass-effect p-4 rounded-custom">
+                        <i class="bi bi-award display-6 text-white mb-3"></i>
+                        <h3 class="display-4 fw-bold text-white mb-2" data-count="{{ stats_public.years_experience }}">0
+                        </h3>
+                        <p class="text-white-80 mb-0">سنوات من الخبرة</p>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-6 mb-4 stagger-item">
+                    <div class="stat-item glass-effect p-4 rounded-custom">
+                        <i class="bi bi-headset display-6 text-white mb-3"></i>
+                        <h3 class="display-4 fw-bold text-white mb-2" data-count="{{ stats_public.support_hours }}">0
+                        </h3>
+                        <p class="text-white-80 mb-0">ساعة دعم</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- قسم الخدمات المحسن -->
+    <section id="services" class="services-section py-5">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-lg-8 mx-auto text-center fade-in-up">
+                    <h2 class="section-title">خدماتنا المتكاملة</h2>
+                    <p class="section-subtitle">نقدم مجموعة واسعة من الخدمات التقنية لتلبية جميع احتياجاتك الرقمية</p>
+                </div>
+            </div>
+            <div class="row stagger-children">
+                <div class="col-md-4 mb-4 stagger-item">
+                    <div class="card service-card h-100 hover-lift">
+                        <div class="card-body text-center p-4">
+                            <div class="service-icon mb-3">
+                                <i class="bi bi-code-slash"></i>
+                            </div>
+                            <h5 class="card-title">تطوير الويب</h5>
+                            <p class="card-text">تصميم وتطوير مواقع ويب متجاوبة واحترافية تناسب جميع الأجهزة باستخدام
+                                أحدث التقنيات</p>
+                            <div class="service-features mb-3">
+                                <span class="badge bg-light text-dark me-1">React</span>
+                                <span class="badge bg-light text-dark me-1">Vue</span>
+                                <span class="badge bg-light text-dark">Laravel</span>
+                            </div>
+                            <a href="{{ url_for('services') }}#web-development" class="btn btn-outline-primary btn-sm">
+                                اكتشف المزيد <i class="bi bi-arrow-left ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4 stagger-item">
+                    <div class="card service-card h-100 hover-lift">
+                        <div class="card-body text-center p-4">
+                            <div class="service-icon mb-3">
+                                <i class="bi bi-phone"></i>
+                            </div>
+                            <h5 class="card-title">تطبيقات الجوال</h5>
+                            <p class="card-text">تطوير تطبيقات جوال مبتكرة لنظامي iOS و Android تلبي احتياجات المستخدمين
+                            </p>
+                            <div class="service-features mb-3">
+                                <span class="badge bg-light text-dark me-1">Flutter</span>
+                                <span class="badge bg-light text-dark me-1">React Native</span>
+                                <span class="badge bg-light text-dark">Swift</span>
+                            </div>
+                            <a href="{{ url_for('services') }}#mobile-apps" class="btn btn-outline-primary btn-sm">
+                                اكتشف المزيد <i class="bi bi-arrow-left ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4 stagger-item">
+                    <div class="card service-card h-100 hover-lift">
+                        <div class="card-body text-center p-4">
+                            <div class="service-icon mb-3">
+                                <i class="bi bi-cloud"></i>
+                            </div>
+                            <h5 class="card-title">الحلول السحابية</h5>
+                            <p class="card-text">تقديم حلول سحابية متكاملة لتحسين كفاءة الأعمال وتقليل التكاليف
+                                التشغيلية</p>
+                            <div class="service-features mb-3">
+                                <span class="badge bg-light text-dark me-1">AWS</span>
+                                <span class="badge bg-light text-dark me-1">Azure</span>
+                                <span class="badge bg-light text-dark">Google Cloud</span>
+                            </div>
+                            <a href="{{ url_for('services') }}#cloud-solutions" class="btn btn-outline-primary btn-sm">
+                                اكتشف المزيد <i class="bi bi-arrow-left ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4 fade-in-up">
+                <a href="{{ url_for('services') }}" class="btn btn-primary btn-lg">
+                    <i class="bi bi-grid-3x3-gap me-2"></i>عرض جميع الخدمات
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم لماذا تختارنا المحسن -->
+    <section class="why-us-section py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0 fade-in-left">
+                    <h2 class="section-title mb-4">لماذا؟ تختار {{ site_settings.company_name }}</h2>
+                    <p class="text-muted mb-4">نحن نتميز بتقديم حلول تقنية مبتكرة تجمع بين الخبرة والجودة والابتكار</p>
+
+                    <div class="why-item d-flex mb-4 p-3 rounded-custom hover-lift">
+                        <div class="flex-shrink-0">
+                            <div class="why-icon">
+                                <i class="bi bi-people-fill"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h5 class="mb-2">خبرة واسعة</h5>
+                            <p class="mb-0 text-muted">فريق من الخبراء والمتخصصين في مختلف المجالات التقنية مع سنوات من
+                                الخبرة العملية</p>
+                        </div>
+                    </div>
+
+                    <div class="why-item d-flex mb-4 p-3 rounded-custom hover-lift">
+                        <div class="flex-shrink-0">
+                            <div class="why-icon">
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h5 class="mb-2">جودة عالية</h5>
+                            <p class="mb-0 text-muted">نلتزم بأعلى معايير الجودة في جميع مشاريعنا وخدماتنا لضمان رضا
+                                العملاء</p>
+                        </div>
+                    </div>
+
+                    <div class="why-item d-flex mb-4 p-3 rounded-custom hover-lift">
+                        <div class="flex-shrink-0">
+                            <div class="why-icon">
+                                <i class="bi bi-headset"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h5 class="mb-2">دعم مستمر</h5>
+                            <p class="mb-0 text-muted">نقدم الدعم الفني المستمر لضمان استمرارية عمل أنظمتك وتحقيق أهدافك
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center fade-in-right">
+                    <div class="why-us-image position-relative">
+                        <img src="{{ url_for('static', filename='assets/svg/why-us.svg') }}" alt="Why Choose Us"
+                            class="img-fluid">
+                        <div class="floating-badge badge-2">
+                            <i class="bi bi-shield-check"></i>
+                            <small>أمان وحماية</small>
+                        </div>
+                        <div class="floating-badge badge-3">
+                            <i class="bi bi-graph-up"></i>
+                            <small>نتائج ملموسة</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم المشاريع في الصفحة الرئيسية -->
+    <section class="projects-section py-5">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-lg-8 mx-auto text-center fade-in-up">
+                    <h2 class="section-title">أحدث مشاريعنا</h2>
+                    <p class="section-subtitle">استكشف بعضاً من أبرز المشاريع التي نفذناها لعملائنا</p>
+                </div>
+            </div>
+
+            <div class="row stagger-children">
+                {% if latest_projects and latest_projects|length > 0 %}
+                {% for project in latest_projects %}
+                <div class="col-md-4 mb-4 stagger-item">
+                    <div class="card project-card hover-lift">
+                        <div class="project-image-container">
+                            {% if project.image_url %}
+                            {# لو الصورة رابط كامل من الإنترنت #}
+                            {% if project.image_url.startswith('http') %}
+                            <img src="{{ project.image_url }}" class="card-img-top" alt="{{ project.title }}">
+                            {% else %}
+                            {# لو مسار داخل static مثل assets/images/.. #}
+                            <img src="{{ url_for('static', filename=project.image_url) }}" class="card-img-top"
+                                alt="{{ project.title }}">
+                            {% endif %}
+                            {% else %}
+                            {# صورة افتراضية لو ما في صورة للمشروع #}
+                            <img src="{{ url_for('static', filename='assets/images/default-project.jpg') }}"
+                                class="card-img-top" alt="{{ project.title }}">
+                            {% endif %}
+                        </div>
+
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="card-title mb-0">{{ project.title }}</h5>
+
+                                {% if project.status %}
+                                <span class="badge bg-primary">
+                                    {{ project.status }}
+                                </span>
+                                {% endif %}
+                            </div>
+
+                            <p class="card-text text-muted">
+                                {{ project.description | truncate(100, True, '...') }}
+                            </p>
+
+                            {% if project.technologies %}
+                            <div class="project-tech">
+                                <small class="text-muted">
+                                    <i class="bi bi-code-slash me-1"></i>
+                                    {{ project.technologies }}
+                                </small>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="col-12 text-center text-muted">
+                    لا توجد مشاريع مضافة حالياً.
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="text-center mt-4 fade-in-up">
+                <a href="{{ url_for('projects') }}" class="btn btn-outline-primary btn-lg">
+                    <i class="bi bi-grid-3x3 me-2"></i>عرض جميع المشاريع
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+    <!-- قسم العملاء المحسن -->
+    <section class="clients-section py-5">
+        <div class="container">
+            <h2 class="section-title mb-3">عملاؤنا</h2>
+            <p class="section-subtitle mb-4">
+                نعتز بثقة عملائنا وشركائنا في رحلتنا الرقمية
+            </p>
+
+            <div class="clients-slider d-flex flex-wrap justify-content-center">
+                {% for client in clients %}
+                <div class="client-item text-center mx-3 my-3">
+                    {% if client.logo_url %}
+                    <img src="{{ url_for('static', filename=client.logo_url) }}" alt="{{ client.name }}"
+                        class="client-logo lazy-loaded mb-2">
+                    {% endif %}
+
+                    <!-- اسم العميل -->
+                    <div class="client-name fw-semibold">
+                        {{ client.name }}
+                    </div>
+
+                    <!-- اسم الشركة إن وجد، وإلا لا يعرض شيء -->
+                    {% if client.company %}
+                    <div class="client-company text-muted small">
+                        {{ client.company }}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+
+    <!-- قسم الاتصال السريع المحسن -->
+    <section class="cta-section py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8 fade-in-left">
+                    <h3 class="mb-3 text-white">هل أنت مستعد لبدء مشروعك القادم؟</h3>
+                    <p class="mb-0 text-white-80">اتصل بنا اليوم واحصل على استشارة مجانية لمشروعك من فريقنا المتخصص</p>
+                </div>
+                <div class="col-lg-4 text-lg-end text-center mt-3 mt-lg-0 fade-in-right">
+                    <a href="{{ url_for('contact') }}" class="btn btn-light btn-lg hover-lift">
+                        <i class="bi bi-chat-dots me-2"></i>اتصل بنا الآن
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- التذييل المحسن -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5 class="mb-3 text-gradient">{{ site_settings.company_name }}</h5>
+                    <p class="mb-3 text-white-60">شركة رائدة في تقديم الحلول التقنية المتكاملة والخدمات الرقمية
+                        المبتكرة.</p>
+                    <div class="social-links">
+                        {% if site_settings.facebook %}
+                        <a href="{{ site_settings.facebook }}" class="social-link" target="_blank"><i
+                                class="bi bi-facebook"></i></a>
+                        {% endif %}
+
+                        {% if site_settings.instagram %}
+                        <a href="{{ site_settings.instagram }}" class="social-link" target="_blank"><i
+                                class="bi bi-instagram"></i></a>
+                        {% endif %}
+
+                        {% if site_settings.linkedin %}
+                        <a href="{{ site_settings.linkedin }}" class="social-link" target="_blank"><i
+                                class="bi bi-linkedin"></i></a>
+                        {% endif %}
+
+                        {% if site_settings.github %}
+                        <a href="{{ site_settings.github }}" class="social-link" target="_blank"><i
+                                class="bi bi-github"></i></a>
+                        {% endif %}
+                    </div>
+
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <h5 class="mb-3">روابط سريعة</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="{{ url_for('index') }}" class="text-white-60 hover-white">الرئيسية</a>
+                        </li>
+                        <li class="mb-2"><a href="{{ url_for('about') }}" class="text-white-60 hover-white">من نحن</a>
+                        </li>
+                        <li class="mb-2"><a href="{{ url_for('services') }}"
+                                class="text-white-60 hover-white">الخدمات</a></li>
+                        <li class="mb-2"><a href="{{ url_for('projects') }}"
+                                class="text-white-60 hover-white">المشاريع</a></li>
+                        <li><a href="{{ url_for('contact') }}" class="text-white-60 hover-white">اتصل بنا</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5 class="mb-3">خدماتنا</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <a href="{{ url_for('services') }}#digital-marketing" class="text-white-60 hover-white">
+                                التسويق الرقمي
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="{{ url_for('services') }}#project-management" class="text-white-60 hover-white">
+                                إدارة المشاريع
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="{{ url_for('services') }}#technology-solutions" class="text-white-60 hover-white">
+                                الحلول التقنية
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="{{ url_for('services') }}#business-management" class="text-white-60 hover-white">
+                                إدارة الأعمال
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h5 class="mb-3">معلومات الاتصال</h5>
+                    <ul class="list-unstyled">
+
+                        <li class="mb-2 d-flex align-items-center">
+                            <i class="bi bi-geo-alt text-primary me-2"></i>
+                            <span class="text-white-60">{{ site_settings.address }}</span>
+                        </li>
+
+                        <li class="mb-2 d-flex align-items-center">
+                            <i class="bi bi-telephone text-primary me-2"></i>
+                            <a href="https://wa.me/{{ site_settings.whatsapp_number }}"
+                                class="text-white-60 hover-white" target="_blank">
+                                {{ site_settings.phone_number }}
+                            </a>
+                        </li>
+
+                        <li class="mb-2 d-flex align-items-center">
+                            <i class="bi bi-envelope text-primary me-2"></i>
+                            <a href="mailto:{{ site_settings.official_email }}" class="text-white-60 hover-white">
+                                {{ site_settings.official_email }}
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+            <hr class="my-4 border-white-20">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0 text-white-60">
+                        جميع الحقوق محفوظة &copy; {{ site_settings.company_name }}
+                        <span id="currentYear"></span>
+                    </p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <a href="#" class="text-white-60 hover-white me-3">سياسة الخصوصية</a>
+                    <a href="#" class="text-white-60 hover-white">شروط الاستخدام</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- زر العودة للأعلى -->
+    <button id="backToTop" class="btn btn-primary back-to-top">
+        <i class="bi bi-chevron-up"></i>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        // تحديث السنة تلقائيًا
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    </script>
+
+
+</body>
+
+</html>

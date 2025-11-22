@@ -1,0 +1,122 @@
+{% extends "admin_layout.html" %}
+
+{% block title %}{% if partner %}تعديل شريك{% else %}إضافة شريك{% endif %} - {{ site_settings.company_name }}{% endblock
+%}
+{% block page_title %}{% if partner %}تعديل شريك{% else %}إضافة شريك جديد{% endif %}{% endblock %}
+{% block page_subtitle %}قم بإدارة بيانات شركاء {{ site_settings.company_name }} بسهولة{% endblock %}
+
+{% block content %}
+
+<div class="row mb-4">
+    <div class="col-lg-8">
+        <div class="card dashboard-card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="mb-0 fw-bold">
+                        {% if partner %}تعديل شريك{% else %}إضافة شريك جديد{% endif %}
+                    </h6>
+                    <small class="text-muted">
+                        {% if partner %}
+                        قم بتعديل بيانات الشريك ثم احفظ التغييرات
+                        {% else %}
+                        قم بملء بيانات الشريك الجديد ثم احفظه
+                        {% endif %}
+                    </small>
+                </div>
+                <a href="{{ url_for('admin_partners') }}" class="btn btn-sm btn-outline-secondary">
+                    <i class="bi bi-arrow-right"></i> رجوع لقائمة الشركاء
+                </a>
+            </div>
+
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">اسم الشريك</label>
+                        <input type="text" name="name" class="form-control"
+                            value="{{ partner.name if partner else '' }}" required>
+                    </div>
+
+                    {# رفع صورة من الجهاز #}
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">رفع شعار من جهازك</label>
+                        <input type="file" name="logo_file" class="form-control">
+                        <small class="text-muted">
+                            يمكنك رفع صورة من جهازك، أو ترك هذا الحقل فارغًا واستخدام رابط في الحقل التالي.
+                        </small>
+                    </div>
+
+                    {# رابط داخل static أو رابط إنترنت #}
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">رابط الشعار (اختياري)</label>
+                        <input type="text" name="logo_url" class="form-control"
+                            placeholder="assets/images/partners/logo.jpeg أو https://example.com/logo.png"
+                            value="{{ partner.logo_url if partner else '' }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">رابط موقع الشريك (اختياري)</label>
+                        <input type="url" name="website" class="form-control" placeholder="https://example.com"
+                            value="{{ partner.website if partner and partner.website else '' }}">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-semibold">ترتيب العرض</label>
+                            <input type="number" name="sort_order" class="form-control"
+                                value="{{ partner.sort_order if partner else 0 }}">
+                        </div>
+
+                        <div class="col-md-8 mb-3 d-flex align-items-end">
+                            <div class="form-check">
+                                <input type="checkbox" name="is_active" id="is_active" class="form-check-input" {% if
+                                    partner is none or partner.is_active %}checked{% endif %}>
+                                <label class="form-check-label" for="is_active">
+                                    عرض هذا الشريك في الموقع (قسم شركاؤنا)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end mt-3">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save me-1"></i>
+                            {% if partner %}حفظ التغييرات{% else %}حفظ الشريك{% endif %}
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+    {% if partner %}
+    <div class="col-lg-4">
+        <div class="card dashboard-card">
+            <div class="card-header">
+                <h6 class="mb-0 fw-bold">معاينة سريعة</h6>
+            </div>
+            <div class="card-body">
+                <p><strong>الاسم:</strong> {{ partner.name }}</p>
+                <p>
+                    <strong>الحالة:</strong>
+                    {% if partner.is_active %}
+                    <span class="badge bg-success">نشط</span>
+                    {% else %}
+                    <span class="badge bg-secondary">مخفي</span>
+                    {% endif %}
+                </p>
+                <p><strong>الترتيب:</strong> {{ partner.sort_order }}</p>
+                {% if partner.logo_url %}
+                {% set logo_path = partner.logo_url|replace('\\', '/') %}
+                <p class="mb-1"><strong>الشعار:</strong></p>
+                <img src="{{ url_for('static', filename=logo_path) }}" alt="{{ partner.name }}"
+                    style="max-height:60px;">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

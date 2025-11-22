@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - {{ site_settings.company_name }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../../static/css/style.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="../static/assets/icons/logo2.png">
+</head>
+
+<body class="dashboard-body">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- الشريط الجانبي المحسن -->
+            {% include 'partials/sidebar_admin.html' %}
+
+            <!-- المحتوى الرئيسي المحسن -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+                <!-- شريط العنوان المحسن -->
+                <div class="dashboard-header d-flex justify-content-between align-items-center pt-4 pb-3 mb-4">
+                    <div class="header-content">
+                        <h1 class="h3 mb-1 fw-bold text-primary">لوحة التحكم</h1>
+                        <p class="text-muted mb-0">مرحباً بك في نظام إدارة {{ site_settings.company_name }}</p>
+                    </div>
+
+                </div>
+
+                <!-- إحصائيات سريعة محسنة -->
+                <div class="row mb-4">
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card stat-card stat-card-primary hover-lift">
+                            <div class="card-body">
+                                <div class="stat-icon">
+                                    <i class="bi bi-question-circle"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number">{{ stats.total_visits }}</div>
+                                    <div class="stat-label">إجمالي زيارات الموقع</div>
+
+                                </div>
+                                <div class="stat-trend text-success">
+                                    <i class="bi bi-arrow-up-short"></i> 12%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card stat-card stat-card-success hover-lift">
+                            <div class="card-body">
+                                <div class="stat-icon">
+                                    <i class="bi bi-envelope-plus"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number">{{ stats.total_inquiries }}</div>
+                                    <div class="stat-label">إجمالي الرسائل</div>
+                                </div>
+                                <div class="stat-trend text-danger">
+                                    <i class="bi bi-arrow-down-short"></i> 5%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card stat-card stat-card-warning hover-lift">
+                            <div class="card-body">
+                                <div class="stat-icon">
+                                    <i class="bi bi-ticket-perforated"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number">{{ stats.today_inquiries }}</div>
+                                    <div class="stat-label">رسائل اليوم</div>
+                                </div>
+                                <div class="stat-trend text-success">
+                                    <i class="bi bi-arrow-up-short"></i> 8%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card stat-card stat-card-info hover-lift">
+                            <div class="card-body">
+                                <div class="stat-icon">
+                                    <i class="bi bi-check-circle"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number">{{ stats.total_projects }}</div>
+                                    <div class="stat-label">عدد المشاريع</div>
+                                </div>
+                                <div class="stat-trend text-success">
+                                    <i class="bi bi-arrow-up-short"></i> 15%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- قسم الرسوم البيانية المحسن -->
+                <div class="row mb-4">
+                    <div class="col-lg-8 mb-4">
+                        <div class="card dashboard-card chart-card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <div class="chart-header">
+                                    <h6 class="mb-0 fw-bold">توزيع الاستفسارات الشهري</h6>
+                                    <small class="text-muted">آخر 6 أشهر</small>
+                                </div>
+                                <div class="chart-actions">
+                                    <div class="dropdown">
+                                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button"
+                                            data-bs-toggle="dropdown">
+                                            <i class="bi bi-filter me-1"></i>عرض
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="#">آخر 3 أشهر</a></li>
+                                            <li><a class="dropdown-item active" href="#">آخر 6 أشهر</a></li>
+                                            <li><a class="dropdown-item" href="#">آخر سنة</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="inquiriesChart" height="250"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 mb-4">
+                        <div class="card dashboard-card chart-card">
+                            <div class="card-header">
+                                <h6 class="mb-0 fw-bold">توزيع الحالات</h6>
+                                <small class="text-muted">نظرة عامة على الاستفسارات</small>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="statusChart" height="250"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- أدوات متقدمة محسنة -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card dashboard-card tools-card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="mb-0 fw-bold">أدوات متقدمة</h6>
+                                    <small class="text-muted">إدارة سريعة للبيانات</small>
+                                </div>
+                                <div class="btn-group">
+                                    <button class="btn btn-sm btn-primary" id="exportData">
+                                        <i class="bi bi-download me-1"></i>تصدير البيانات
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
+                                        data-bs-target="#settingsModal">
+                                        <i class="bi bi-gear me-1"></i>الإعدادات
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-semibold">الإجراءات المجمعة</label>
+                                        <select class="form-select" id="bulkActions">
+                                            <option value="">اختر إجراء...</option>
+                                            <option value="mark_completed">تعيين كمكتمل</option>
+                                            <option value="mark_in_progress">تعيين كقيد المعالجة</option>
+                                            <option value="delete">حذف المحدد</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-semibold">البحث المتقدم</label>
+                                        <div class="search-box position-relative">
+                                            <input type="text" class="form-control"
+                                                placeholder="ابحث في جميع الحقول...">
+                                            <i class="bi bi-search search-icon"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-semibold">ترتيب حسب</label>
+                                        <select class="form-select" id="sortBy">
+                                            <option value="newest">الأحدث أولاً</option>
+                                            <option value="oldest">الأقدم أولاً</option>
+                                            <option value="name">الاسم</option>
+                                            <option value="status">الحالة</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- الصف السفلي -->
+                <div class="row">
+                    <!-- الاستفسارات الحديثة المحسنة -->
+                    <div class="col-lg-8 mb-4">
+                        <div class="card dashboard-card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="mb-0 fw-bold">آخر الاستفسارات</h6>
+                                    <small class="text-muted">أحدث 5 استفسارات</small>
+                                </div>
+                                <a href="{{ url_for('admin_inquiries') }}" class="btn btn-sm btn-outline-primary">
+                                    عرض الكل <i class="bi bi-arrow-left ms-1"></i>
+                                </a>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-borderless mb-0">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th class="ps-3">الاسم</th>
+                                                <th>البريد الإلكتروني</th>
+                                                <th>النوع</th>
+                                                <th>الحالة</th>
+                                                <th class="pe-3">الإجراءات</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="recentInquiriesTable">
+                                            {% if recent_inquiries %}
+                                            {% for inquiry in recent_inquiries %}
+                                            <tr>
+                                                <td class="ps-3">{{ inquiry.name }}</td>
+                                                <td>{{ inquiry.email }}</td>
+                                                <td>{{ inquiry.category }}</td>
+                                                <td>
+                                                    <span class="badge
+                    {% if inquiry.status == 'new' %} bg-primary
+                    {% elif inquiry.status == 'in_progress' %} bg-warning
+                    {% else %} bg-success
+                    {% endif %}
+                ">
+                                                        {{ inquiry.status }}
+                                                    </span>
+                                                </td>
+                                                <td class="pe-3">
+                                                    <!-- ممكن تضيف زر عرض التفاصيل لاحقاً -->
+                                                    <button class="btn btn-sm btn-outline-secondary">
+                                                        <i class="bi bi-eye"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% else %}
+                                            <tr>
+                                                <td colspan="5" class="text-center text-muted py-4">
+                                                    لا توجد رسائل بعد
+                                                </td>
+                                            </tr>
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="card-footer bg-transparent text-center">
+                                    <a href="{{ url_for('admin_inquiries') }}" class="btn btn-primary btn-sm">
+                                        <i class="bi bi-list-ul me-1"></i>عرض جميع الاستفسارات
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- العمود الجانبي -->
+                    <div class="col-lg-4 mb-4">
+                        <!-- الإشعارات المحسنة -->
+                        <div class="card dashboard-card">
+                            <div class="card-header">
+                                <h6 class="mb-0 fw-bold">الإشعارات</h6>
+                                <small class="text-muted">آخر التحديثات</small>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="list-group list-group-flush">
+                                    {% if notifications %}
+                                    {% for notif in notifications %}
+                                    <div class="list-group-item d-flex justify-content-between align-items-start">
+                                        <div class="me-auto">
+                                            <div class="fw-semibold">{{ notif.title }}</div>
+                                            <small class="text-muted">{{ notif.message }}</small>
+                                        </div>
+                                        <span class="badge 
+                {% if notif.type == 'success' %} bg-success
+                {% elif notif.type == 'warning' %} bg-warning text-dark
+                {% elif notif.type == 'error' %} bg-danger
+                {% else %} bg-secondary
+                {% endif %}
+            ">{{ notif.type }}</span>
+                                    </div>
+                                    {% endfor %}
+                                    {% else %}
+                                    <div class="p-3 text-center text-muted">
+                                        لا توجد إشعارات حالياً
+                                    </div>
+                                    {% endif %}
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- الإحصائيات السريعة المحسنة -->
+                        <div class="card dashboard-card mt-4">
+                            <div class="card-header">
+                                <h6 class="mb-0 fw-bold">إحصائيات الأداء</h6>
+                                <small class="text-muted">مؤشرات الجودة</small>
+                            </div>
+                            <div class="card-body">
+                                <div class="performance-stats">
+                                    <div class="performance-item mb-3">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <span class="performance-label">معدل الرد على الاستفسارات</span>
+                                            <span class="performance-value">85%</span>
+                                        </div>
+                                        <div class="progress" style="height: 6px;">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: 85%">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="performance-item mb-3">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <span class="performance-label">رضا العملاء</span>
+                                            <span class="performance-value">92%</span>
+                                        </div>
+                                        <div class="progress" style="height: 6px;">
+                                            <div class="progress-bar bg-info" role="progressbar" style="width: 92%">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="performance-item">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <span class="performance-label">إنجاز المشاريع في الوقت</span>
+                                            <span class="performance-value">78%</span>
+                                        </div>
+                                        <div class="progress" style="height: 6px;">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 78%">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../static/js/admin.js"></script>
+</body>
+
+</html>
