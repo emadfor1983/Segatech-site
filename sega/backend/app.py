@@ -33,6 +33,10 @@ os.makedirs(PROJECTS_UPLOAD_FOLDER, exist_ok=True)
 CLIENTS_UPLOAD_FOLDER = os.path.join(app.root_path, 'static', 'assets', 'images', 'clients')
 os.makedirs(CLIENTS_UPLOAD_FOLDER, exist_ok=True)
 
+# ✅ مجلد صور خبراء تحليل الأعمال
+EXPERTS_UPLOAD_FOLDER = os.path.join(app.root_path, 'static', 'assets', 'images', 'experts')
+os.makedirs(EXPERTS_UPLOAD_FOLDER, exist_ok=True)
+
 DB_PATH = os.path.join(DB_DIR, 'segatech.db')                  # المسار الكامل للملف
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_PATH}'
 
@@ -173,6 +177,34 @@ class Partner(db.Model):
     website = db.Column(db.String(300))                    # موقع الشريك (اختياري)
     is_active = db.Column(db.Boolean, default=True)        # يظهر في الموقع أو لا
     sort_order = db.Column(db.Integer, default=0)          # ترتيب العرض
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+class BusinessExpert(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(150), nullable=False)       # اسم الخبير
+    job_title = db.Column(db.String(150), nullable=False)  # المسمى الوظيفي
+    specialization = db.Column(db.String(200))             # التخصص (مثل: تحليل الأعمال، إدارة المشاريع)
+    bio = db.Column(db.Text)                               # نبذة عن الخبير
+    expertise_areas = db.Column(db.Text)                   # مجالات الخبرة (JSON أو نص)
+    image_url = db.Column(db.String(300))                  # صورة الخبير
+
+    # معلومات الاتصال
+    email = db.Column(db.String(100))
+    phone = db.Column(db.String(30))
+
+    # روابط التواصل الاجتماعي
+    linkedin = db.Column(db.String(300))
+    twitter = db.Column(db.String(300))
+    github = db.Column(db.String(300))
+    website = db.Column(db.String(300))
+
+    # معلومات إضافية
+    years_experience = db.Column(db.Integer, default=0)    # سنوات الخبرة
+    certifications = db.Column(db.Text)                    # الشهادات (JSON أو نص)
+
+    # حالة العرض
+    is_active = db.Column(db.Boolean, default=True)
+    sort_order = db.Column(db.Integer, default=0)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 def create_notification(title, message, type='info'):
@@ -999,6 +1031,199 @@ def admin_team_delete(member_id):
     flash('تم حذف العضو من الفريق', 'warning')
     return redirect(url_for('admin_team'))
 
+# ============================================================
+# Business Experts Admin Routes
+# ============================================================
+
+@app.route('/admin/business-experts')
+def admin_business_experts():
+    if not session.get('is_admin'):
+        return redirect(url_for('admin_login', next=request.path))
+
+    experts = BusinessExpert.query.order_by(BusinessExpert.sort_order.asc(),
+                                            BusinessExpert.created_at.asc()).all()
+    return render_template('admin_business_experts.html', experts=experts)
+
+
+@app.route('/admin/business-experts/new', methods=['GET', 'POST'])
+def admin_business_expert_new():
+    if not session.get('is_admin'):
+        return redirect(url_for('admin_login', next=request.path))
+
+    if request.method == 'POST':
+        name = (request.form.get('name') or '').strip()
+        job_title = (request.form.get('job_title') or '').strip()
+
+        if not name or not job_title:
+            flash('الاسم والمسمى الوظيفي حقول إلزامية', 'danger')
+            return render_template('admin_business_expert_form.html', expert=None)
+
+        # معالجة ملف الصورة
+        image_path = None
+        file = request.files.get('image_file')
+
+        if file and file.filename:
+            filename = secure_filename(file.filename)
+            save_path = os.path.join(EXPERTS_UPLOAD_FOLDER, filename)
+            file.save(save_path)
+            image_path = f'assets/images/experts/{filename}'
+        else:
+            # أو استخدام رابط يدوي
+            image_path = (request.form.get('image_url') or '').strip()
+
+        # معالجة مجالات الخبرة
+        raw_expertise = request.form.get('expertise_areas', '').strip()
+        expertise_list = [e.strip() for e in raw_expertise.split(',') if e.strip()]
+        expertise_json = json.dumps(expertise_list) if expertise_list else None
+
+        # معالجة الشهادات
+        raw_certifications = request.form.get('certifications', '').strip()
+        cert_list = [c.strip() for c in raw_certifications.split(',') if c.strip()]
+        certifications_json = json.dumps(cert_list) if cert_list else None
+
+        expert = BusinessExpert(
+            name=name,
+            job_title=job_title,
+            specialization=request.form.get('specialization') or None,
+            bio=request.form.get('bio') or None,
+            expertise_areas=expertise_json,
+            image_url=image_path,
+            email=request.form.get('email') or None,
+            phone=request.form.get('phone') or None,
+            linkedin=request.form.get('linkedin') or None,
+            twitter=request.form.get('twitter') or None,
+            github=request.form.get('github') or None,
+            website=request.form.get('website') or None,
+            years_experience=int(request.form.get('years_experience') or 0),
+            certifications=certifications_json,
+            sort_order=int(request.form.get('sort_order') or 0),
+            is_active=True if request.form.get('is_active') == 'on' else False
+        )
+
+        db.session.add(expert)
+        db.session.commit()
+
+        create_notification(
+            title='خبير جديد',
+            message=f'تم إضافة الخبير: {expert.name}',
+            type='success'
+        )
+
+        flash('تم إضافة خبير تحليل الأعمال بنجاح', 'success')
+        return redirect(url_for('admin_business_experts'))
+
+    return render_template('admin_business_expert_form.html', expert=None,
+                         expertise_text='', certifications_text='')
+
+
+@app.route('/admin/business-experts/<int:expert_id>/edit', methods=['GET', 'POST'])
+def admin_business_expert_edit(expert_id):
+    if not session.get('is_admin'):
+        return redirect(url_for('admin_login', next=request.path))
+
+    expert = BusinessExpert.query.get_or_404(expert_id)
+
+    if request.method == 'POST':
+        expert.name = request.form.get('name')
+        expert.job_title = request.form.get('job_title')
+        expert.specialization = request.form.get('specialization') or None
+        expert.bio = request.form.get('bio') or None
+
+        # معالجة الصورة الجديدة
+        file = request.files.get('image_file')
+        if file and file.filename:
+            filename = secure_filename(file.filename)
+            save_path = os.path.join(EXPERTS_UPLOAD_FOLDER, filename)
+            file.save(save_path)
+            expert.image_url = f'assets/images/experts/{filename}'
+        else:
+            # تحديث الرابط اليدوي
+            image_url = (request.form.get('image_url') or '').strip()
+            if image_url:
+                expert.image_url = image_url
+
+        # معالجة مجالات الخبرة
+        raw_expertise = request.form.get('expertise_areas', '').strip()
+        expertise_list = [e.strip() for e in raw_expertise.split(',') if e.strip()]
+        expert.expertise_areas = json.dumps(expertise_list) if expertise_list else None
+
+        # معالجة الشهادات
+        raw_certifications = request.form.get('certifications', '').strip()
+        cert_list = [c.strip() for c in raw_certifications.split(',') if c.strip()]
+        expert.certifications = json.dumps(cert_list) if cert_list else None
+
+        expert.email = request.form.get('email') or None
+        expert.phone = request.form.get('phone') or None
+        expert.linkedin = request.form.get('linkedin') or None
+        expert.twitter = request.form.get('twitter') or None
+        expert.github = request.form.get('github') or None
+        expert.website = request.form.get('website') or None
+        expert.years_experience = int(request.form.get('years_experience') or 0)
+        expert.sort_order = int(request.form.get('sort_order') or 0)
+        expert.is_active = True if request.form.get('is_active') == 'on' else False
+
+        db.session.commit()
+
+        create_notification(
+            title='تعديل خبير',
+            message=f'تم تعديل بيانات الخبير: {expert.name}',
+            type='info'
+        )
+
+        flash('تم تحديث بيانات الخبير بنجاح', 'success')
+        return redirect(url_for('admin_business_experts'))
+
+    # عند GET: تجهيز النصوص
+    expertise_text = ''
+    if expert.expertise_areas:
+        try:
+            expertise_list = json.loads(expert.expertise_areas)
+            expertise_text = ', '.join(expertise_list)
+        except Exception:
+            expertise_text = expert.expertise_areas
+
+    certifications_text = ''
+    if expert.certifications:
+        try:
+            cert_list = json.loads(expert.certifications)
+            certifications_text = ', '.join(cert_list)
+        except Exception:
+            certifications_text = expert.certifications
+
+    return render_template('admin_business_expert_form.html', expert=expert,
+                         expertise_text=expertise_text,
+                         certifications_text=certifications_text)
+
+
+@app.route('/admin/business-experts/<int:expert_id>/delete', methods=['POST'])
+def admin_business_expert_delete(expert_id):
+    if not session.get('is_admin'):
+        return redirect(url_for('admin_login', next=request.path))
+
+    expert = BusinessExpert.query.get_or_404(expert_id)
+    name = expert.name
+
+    db.session.delete(expert)
+    db.session.commit()
+
+    create_notification(
+        title='حذف خبير',
+        message=f'تم حذف الخبير: {name}',
+        type='warning'
+    )
+
+    flash('تم حذف الخبير بنجاح', 'warning')
+    return redirect(url_for('admin_business_experts'))
+
+
+# Public route for business experts
+@app.route('/business-experts')
+def business_experts():
+    experts = BusinessExpert.query.filter_by(is_active=True) \
+                                  .order_by(BusinessExpert.sort_order.asc(),
+                                           BusinessExpert.created_at.asc()) \
+                                  .all()
+    return render_template('business_experts.html', experts=experts)
 
 
 if __name__ == '__main__':

@@ -46,6 +46,17 @@
                 </a>
             </li>
 
+            <!-- خبراء تحليل الأعمال -->
+            <li class="nav-item mb-2">
+                <a class="nav-link sidebar-link {% if request.endpoint in ['admin_business_experts', 'admin_business_expert_new', 'admin_business_expert_edit'] %}active{% endif %}"
+                    href="{{ url_for('admin_business_experts') }}">
+                    <span class="icon-wrapper">
+                        <i class="bi bi-briefcase-fill"></i>
+                    </span>
+                    <span class="link-text">خبراء تحليل الأعمال</span>
+                </a>
+            </li>
+
             <!-- المشاريع -->
             <li class="nav-item mb-2">
                 <a class="nav-link sidebar-link {% if request.endpoint in ['admin_projects', 'admin_project_new', 'admin_project_edit'] %}active{% endif %}"
