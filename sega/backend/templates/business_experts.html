@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>خبراء تحليل الأعمال - {{ site_settings.company_name }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="../static/assets/icons/logo2.png">
+</head>
+
+<body>
+    <!-- شريط التنقل -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('index') }}">
+                <span class="fw-bold text-gradient">{{ site_settings.company_name }}</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('index') }}">الرئيسية</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('about') }}">من نحن</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('services') }}">الخدمات</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('projects') }}">المشاريع</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('business_experts') }}">خبراء تحليل الأعمال</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('contact') }}">اتصل بنا</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_dashboard_page') }}">Admin</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- رأس الصفحة -->
+    <section class="page-header py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center fade-in-up">
+                    <h1 class="display-4 fw-bold text-primary mb-3">خبراء تحليل الأعمال</h1>
+                    <p class="lead text-muted">نخبة من المتخصصين في تحليل الأعمال وإدارة المشاريع</p>
+                    <div class="page-header-ornament">
+                        <div class="ornament-dot"></div>
+                        <div class="ornament-dot"></div>
+                        <div class="ornament-dot"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم الخبراء -->
+    <section class="experts-section py-5">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12 text-center fade-in-up">
+                    <span class="section-badge">خبراؤنا</span>
+                    <h2 class="section-title">فريق خبراء تحليل الأعمال</h2>
+                    <p class="section-subtitle">متخصصون معتمدون في تحليل الأعمال وإدارة المشاريع والاستشارات</p>
+                </div>
+            </div>
+
+            <div class="row stagger-children">
+                {% if experts and experts|length > 0 %}
+                {% for expert in experts %}
+                <div class="col-lg-4 col-md-6 mb-4 stagger-item">
+                    <div class="card team-card expert-card text-center border-0 h-100 hover-lift">
+                        <div class="team-image-container">
+                            {% if expert.image_url %}
+                            <img src="{{ url_for('static', filename=expert.image_url) if not expert.image_url.startswith('http') else expert.image_url }}"
+                                class="card-img-top" alt="{{ expert.name }}">
+                            {% else %}
+                            <div class="default-expert-image d-flex align-items-center justify-content-center">
+                                <i class="bi bi-person-circle" style="font-size: 5rem; color: #ccc;"></i>
+                            </div>
+                            {% endif %}
+                            <div class="team-overlay">
+                                <div class="team-social">
+                                    {% if expert.linkedin %}
+                                    <a href="{{ expert.linkedin }}" class="social-link" title="LinkedIn" target="_blank">
+                                        <i class="bi bi-linkedin"></i>
+                                    </a>
+                                    {% endif %}
+                                    {% if expert.twitter %}
+                                    <a href="{{ expert.twitter }}" class="social-link" title="Twitter" target="_blank">
+                                        <i class="bi bi-twitter"></i>
+                                    </a>
+                                    {% endif %}
+                                    {% if expert.github %}
+                                    <a href="{{ expert.github }}" class="social-link" title="GitHub" target="_blank">
+                                        <i class="bi bi-github"></i>
+                                    </a>
+                                    {% endif %}
+                                    {% if expert.website %}
+                                    <a href="{{ expert.website }}" class="social-link" title="الموقع الشخصي" target="_blank">
+                                        <i class="bi bi-globe"></i>
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body p-4">
+                            <h5 class="card-title fw-bold mb-2">{{ expert.name }}</h5>
+                            <p class="text-primary fw-medium mb-1">{{ expert.job_title }}</p>
+                            {% if expert.specialization %}
+                            <p class="text-muted small mb-2">{{ expert.specialization }}</p>
+                            {% endif %}
+                            <div class="expert-experience mb-3">
+                                <span class="badge bg-light text-dark">
+                                    <i class="bi bi-award me-1"></i>{{ expert.years_experience }} سنوات خبرة
+                                </span>
+                            </div>
+                            {% if expert.bio %}
+                            <p class="card-text text-muted small">{{ expert.bio[:120] }}{{ '...' if expert.bio|length > 120 else '' }}</p>
+                            {% endif %}
+
+                            <!-- مجالات الخبرة -->
+                            {% if expert.expertise_areas %}
+                            <div class="expertise-areas mt-3">
+                                <h6 class="small fw-bold mb-2">مجالات الخبرة:</h6>
+                                <div class="d-flex flex-wrap gap-1 justify-content-center">
+                                    {% set expertise_list = expert.expertise_areas|from_json if expert.expertise_areas else [] %}
+                                    {% for area in expertise_list[:4] %}
+                                    <span class="badge bg-primary bg-opacity-10 text-primary">{{ area }}</span>
+                                    {% endfor %}
+                                    {% if expertise_list|length > 4 %}
+                                    <span class="badge bg-primary bg-opacity-10 text-primary">+{{ expertise_list|length - 4 }} المزيد</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            <!-- الشهادات -->
+                            {% if expert.certifications %}
+                            <div class="certifications mt-3">
+                                <h6 class="small fw-bold mb-2">الشهادات:</h6>
+                                <div class="d-flex flex-wrap gap-1 justify-content-center">
+                                    {% set cert_list = expert.certifications|from_json if expert.certifications else [] %}
+                                    {% for cert in cert_list[:3] %}
+                                    <span class="badge bg-success bg-opacity-10 text-success">{{ cert }}</span>
+                                    {% endfor %}
+                                    {% if cert_list|length > 3 %}
+                                    <span class="badge bg-success bg-opacity-10 text-success">+{{ cert_list|length - 3 }} المزيد</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            <!-- معلومات الاتصال -->
+                            <div class="contact-info mt-3 pt-3 border-top">
+                                {% if expert.email %}
+                                <div class="mb-1">
+                                    <i class="bi bi-envelope text-primary me-1"></i>
+                                    <a href="mailto:{{ expert.email }}" class="small text-decoration-none">{{ expert.email }}</a>
+                                </div>
+                                {% endif %}
+                                {% if expert.phone %}
+                                <div>
+                                    <i class="bi bi-telephone text-primary me-1"></i>
+                                    <a href="tel:{{ expert.phone }}" class="small text-decoration-none">{{ expert.phone }}</a>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="col-12">
+                    <div class="alert alert-info text-center">
+                        <i class="bi bi-info-circle me-2"></i>
+                        لا يوجد خبراء متاحون حالياً. تفضل بزيارتنا لاحقاً.
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-5 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5 class="fw-bold mb-3">{{ site_settings.company_name }}</h5>
+                    <p class="text-muted">شريكك التقني المفضل لتحقيق النجاح الرقمي</p>
+                    <div class="social-links mt-3">
+                        {% if site_settings.facebook %}
+                        <a href="{{ site_settings.facebook }}" class="text-light me-3" target="_blank"><i class="bi bi-facebook"></i></a>
+                        {% endif %}
+                        {% if site_settings.instagram %}
+                        <a href="{{ site_settings.instagram }}" class="text-light me-3" target="_blank"><i class="bi bi-instagram"></i></a>
+                        {% endif %}
+                        {% if site_settings.linkedin %}
+                        <a href="{{ site_settings.linkedin }}" class="text-light me-3" target="_blank"><i class="bi bi-linkedin"></i></a>
+                        {% endif %}
+                        {% if site_settings.github %}
+                        <a href="{{ site_settings.github }}" class="text-light me-3" target="_blank"><i class="bi bi-github"></i></a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5 class="fw-bold mb-3">روابط سريعة</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="{{ url_for('index') }}" class="text-muted text-decoration-none">الرئيسية</a></li>
+                        <li class="mb-2"><a href="{{ url_for('about') }}" class="text-muted text-decoration-none">من نحن</a></li>
+                        <li class="mb-2"><a href="{{ url_for('services') }}" class="text-muted text-decoration-none">الخدمات</a></li>
+                        <li class="mb-2"><a href="{{ url_for('projects') }}" class="text-muted text-decoration-none">المشاريع</a></li>
+                        <li class="mb-2"><a href="{{ url_for('business_experts') }}" class="text-muted text-decoration-none">خبراء تحليل الأعمال</a></li>
+                        <li class="mb-2"><a href="{{ url_for('contact') }}" class="text-muted text-decoration-none">اتصل بنا</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h5 class="fw-bold mb-3">تواصل معنا</h5>
+                    <ul class="list-unstyled text-muted">
+                        <li class="mb-2"><i class="bi bi-geo-alt-fill me-2"></i>{{ site_settings.address }}</li>
+                        <li class="mb-2"><i class="bi bi-telephone-fill me-2"></i>{{ site_settings.phone_number }}</li>
+                        <li class="mb-2"><i class="bi bi-envelope-fill me-2"></i>{{ site_settings.official_email }}</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4 bg-secondary">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="text-muted mb-0">&copy; 2024 {{ site_settings.company_name }}. جميع الحقوق محفوظة.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // تأثير التلاشي عند التمرير
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-up, .stagger-item').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+
+</html>

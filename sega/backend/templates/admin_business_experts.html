@@ -1,0 +1,91 @@
+{% extends "admin_layout.html" %}
+
+{% block title %}خبراء تحليل الأعمال - {{ site_settings.company_name }}{% endblock %}
+{% block page_title %}خبراء تحليل الأعمال{% endblock %}
+{% block page_subtitle %}إدارة خبراء تحليل الأعمال في موقع {{ site_settings.company_name }}{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h5 class="mb-0 fw-bold">خبراء تحليل الأعمال</h5>
+    <a href="{{ url_for('admin_business_expert_new') }}" class="btn btn-primary btn-sm">
+        <i class="bi bi-plus-circle me-1"></i> إضافة خبير جديد
+    </a>
+</div>
+
+<div class="card dashboard-card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <div>
+            <h6 class="mb-0 fw-bold">قائمة الخبراء</h6>
+            <small class="text-muted">عدد الخبراء: {{ experts|length }}</small>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover table-borderless mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>الاسم</th>
+                        <th>الوظيفة</th>
+                        <th>التخصص</th>
+                        <th>سنوات الخبرة</th>
+                        <th>الترتيب</th>
+                        <th>الحالة</th>
+                        <th>روابط</th>
+                        <th class="pe-3">إجراءات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if experts %}
+                    {% for expert in experts %}
+                    <tr>
+                        <td>{{ expert.id }}</td>
+                        <td>{{ expert.name }}</td>
+                        <td>{{ expert.job_title }}</td>
+                        <td>{{ expert.specialization or '-' }}</td>
+                        <td>{{ expert.years_experience }} سنة</td>
+                        <td>{{ expert.sort_order }}</td>
+                        <td>
+                            {% if expert.is_active %}
+                            <span class="badge bg-success">نشط</span>
+                            {% else %}
+                            <span class="badge bg-secondary">مخفي</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if expert.linkedin %}<i class="bi bi-linkedin text-primary me-1"></i>{% endif %}
+                            {% if expert.twitter %}<i class="bi bi-twitter text-info me-1"></i>{% endif %}
+                            {% if expert.github %}<i class="bi bi-github text-light me-1"></i>{% endif %}
+                            {% if expert.website %}<i class="bi bi-globe text-success me-1"></i>{% endif %}
+                        </td>
+                        <td class="pe-3">
+                            <div class="d-flex gap-2">
+                                <a href="{{ url_for('admin_business_expert_edit', expert_id=expert.id) }}"
+                                    class="btn btn-sm btn-outline-secondary" title="تعديل">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <form method="post" action="{{ url_for('admin_business_expert_delete', expert_id=expert.id) }}"
+                                    onsubmit="return confirm('هل أنت متأكد من حذف هذا الخبير؟');">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="حذف">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="9" class="text-center text-muted py-4">
+                            لا يوجد خبراء حتى الآن
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

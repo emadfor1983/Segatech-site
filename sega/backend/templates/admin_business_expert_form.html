@@ -1,0 +1,186 @@
+{% extends "admin_layout.html" %}
+
+{% block title %}{{ 'تعديل خبير' if expert else 'إضافة خبير جديد' }} - {{ site_settings.company_name }}{% endblock %}
+{% block page_title %}{{ 'تعديل خبير تحليل أعمال' if expert else 'إضافة خبير تحليل أعمال جديد' }}{% endblock %}
+{% block page_subtitle %}قم بإدارة بيانات خبراء تحليل الأعمال في {{ site_settings.company_name }} بسهولة{% endblock %}
+
+{% block content %}
+
+<div class="row mb-4">
+    <div class="col-lg-8">
+        <div class="card dashboard-card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="mb-0 fw-bold">
+                        {{ 'تعديل خبير تحليل أعمال' if expert else 'إضافة خبير جديد' }}
+                    </h6>
+                    <small class="text-muted">
+                        {{ 'قم بتعديل بيانات الخبير ثم احفظ التغييرات' if expert else 'قم بملء بيانات الخبير الجديد ثم احفظه' }}
+                    </small>
+                </div>
+                <a href="{{ url_for('admin_business_experts') }}" class="btn btn-sm btn-outline-secondary">
+                    <i class="bi bi-arrow-right"></i> رجوع لقائمة الخبراء
+                </a>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+
+                    <!-- المعلومات الأساسية -->
+                    <h6 class="fw-bold mb-3 text-primary">المعلومات الأساسية</h6>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">الاسم <span class="text-danger">*</span></label>
+                        <input type="text" name="name" class="form-control" value="{{ expert.name if expert else '' }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">المسمّى الوظيفي <span class="text-danger">*</span></label>
+                        <input type="text" name="job_title" class="form-control" value="{{ expert.job_title if expert else '' }}" required>
+                        <small class="text-muted">مثل: خبير تحليل أعمال، محلل أعمال رئيسي</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">التخصص</label>
+                        <input type="text" name="specialization" class="form-control" value="{{ expert.specialization if expert else '' }}">
+                        <small class="text-muted">مثل: تحليل الأعمال، إدارة المشاريع، الاستشارات</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">نبذة عن الخبير</label>
+                        <textarea name="bio" class="form-control" rows="4">{{ expert.bio if expert else '' }}</textarea>
+                    </div>
+
+                    <!-- الخبرة والمهارات -->
+                    <h6 class="fw-bold mb-3 text-primary mt-4">الخبرة والمهارات</h6>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">مجالات الخبرة</label>
+                        <textarea name="expertise_areas" class="form-control" rows="3">{{ expertise_text if expert else '' }}</textarea>
+                        <small class="text-muted">افصل بينها بفاصلة. مثل: تحليل الأعمال, إدارة المشاريع, UML</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">الشهادات</label>
+                        <textarea name="certifications" class="form-control" rows="3">{{ certifications_text if expert else '' }}</textarea>
+                        <small class="text-muted">افصل بينها بفاصلة. مثل: CBAP, PMI-PBA, Agile BA</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">سنوات الخبرة</label>
+                        <input type="number" name="years_experience" class="form-control" value="{{ expert.years_experience if expert else 0 }}" min="0">
+                    </div>
+
+                    <!-- الصورة -->
+                    <h6 class="fw-bold mb-3 text-primary mt-4">الصورة الشخصية</h6>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">رفع صورة جديدة</label>
+                        <input type="file" name="image_file" class="form-control" accept="image/*">
+                        <small class="text-muted">أو اترك الحقل فارغاً واستخدم رابط الصورة أدناه</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">رابط الصورة (URL)</label>
+                        <input type="text" name="image_url" class="form-control" value="{{ expert.image_url if expert else '' }}">
+                        <small class="text-muted">إذا كانت الصورة موجودة على رابط خارجي</small>
+                    </div>
+
+                    <!-- معلومات الاتصال -->
+                    <h6 class="fw-bold mb-3 text-primary mt-4">معلومات الاتصال</h6>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">البريد الإلكتروني</label>
+                            <input type="email" name="email" class="form-control" value="{{ expert.email if expert else '' }}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">رقم الهاتف</label>
+                            <input type="tel" name="phone" class="form-control" value="{{ expert.phone if expert else '' }}">
+                        </div>
+                    </div>
+
+                    <!-- روابط التواصل الاجتماعي -->
+                    <h6 class="fw-bold mb-3 text-primary mt-4">روابط التواصل الاجتماعي</h6>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">لينكدإن</label>
+                            <input type="url" name="linkedin" class="form-control" value="{{ expert.linkedin if expert else '' }}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">تويتر</label>
+                            <input type="url" name="twitter" class="form-control" value="{{ expert.twitter if expert else '' }}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">GitHub</label>
+                            <input type="url" name="github" class="form-control" value="{{ expert.github if expert else '' }}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">الموقع الشخصي</label>
+                            <input type="url" name="website" class="form-control" value="{{ expert.website if expert else '' }}">
+                        </div>
+                    </div>
+
+                    <!-- إعدادات العرض -->
+                    <h6 class="fw-bold mb-3 text-primary mt-4">إعدادات العرض</h6>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-semibold">ترتيب العرض</label>
+                            <input type="number" name="sort_order" class="form-control" value="{{ expert.sort_order if expert else 0 }}">
+                            <small class="text-muted">الأصغر يظهر أولاً</small>
+                        </div>
+                        <div class="col-md-4 mb-3 d-flex align-items-center">
+                            <div class="form-check mt-4">
+                                <input class="form-check-input" type="checkbox" name="is_active" id="is_active"
+                                    {% if expert is none or expert.is_active %}checked{% endif %}>
+                                <label class="form-check-label" for="is_active">
+                                    نشط (يظهر في الموقع)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end mt-4">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save me-1"></i>
+                            {{ 'حفظ التغييرات' if expert else 'حفظ الخبير' }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {% if expert %}
+    <div class="col-lg-4">
+        <div class="card dashboard-card">
+            <div class="card-header">
+                <h6 class="mb-0 fw-bold">معاينة سريعة</h6>
+            </div>
+            <div class="card-body text-center">
+                {% if expert.image_url %}
+                <img src="{{ url_for('static', filename=expert.image_url) if not expert.image_url.startswith('http') else expert.image_url }}"
+                    class="img-fluid rounded-circle mb-3" style="max-width: 150px;" alt="{{ expert.name }}">
+                {% else %}
+                <div class="bg-light rounded-circle d-flex align-items-center justify-content-center mb-3 mx-auto"
+                    style="width: 150px; height: 150px;">
+                    <i class="bi bi-person-circle" style="font-size: 5rem;"></i>
+                </div>
+                {% endif %}
+                <h5 class="mb-1">{{ expert.name }}</h5>
+                <p class="text-primary mb-2">{{ expert.job_title }}</p>
+                {% if expert.specialization %}
+                <p class="text-muted small mb-2"><strong>التخصص:</strong> {{ expert.specialization }}</p>
+                {% endif %}
+                <p class="text-muted small mb-2"><strong>الخبرة:</strong> {{ expert.years_experience }} سنة</p>
+                {% if expert.bio %}
+                <p class="text-muted small">{{ expert.bio[:100] }}{{ '...' if expert.bio|length > 100 else '' }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}
