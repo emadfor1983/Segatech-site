@@ -47,6 +47,7 @@ class AdvancedAdminDashboard {
             filterFields: [
                 { value: 'technical', label: 'دعم فني' },
                 { value: 'sales', label: 'استفسار مبيعات' },
+                { value: 'sales_logistics', label: 'لوجستي المبيعات' },
                 { value: 'partnership', label: 'شراكة' },
                 { value: 'general', label: 'استفسار عام' },
                 { value: 'complaint', label: 'شكوى' }
@@ -474,6 +475,7 @@ class AdvancedAdminDashboard {
         const categories = {
             'technical': 'دعم فني',
             'sales': 'استفسار مبيعات',
+            'sales_logistics': 'لوجستي المبيعات',
             'partnership': 'شراكة',
             'general': 'استفسار عام',
             'complaint': 'شكوى'
