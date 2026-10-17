@@ -301,8 +301,119 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- لوجستي المبيعات -->
+                <div class="col-lg-6 mb-5 stagger-item" id="sales-logistics">
+                    <div class="card service-detail-card h-100 hover-lift">
+                        <div class="card-body p-4">
+                            <div class="row align-items-center h-100">
+                                <div class="col-md-4 text-center mb-4 mb-md-0">
+                                    <div class="service-icon-large mb-3">
+                                        <i class="bi bi-truck"></i>
+                                    </div>
+                                    <div class="service-tech-tags">
+                                        <span class="tech-tag">Orders</span>
+                                        <span class="tech-tag">Inventory</span>
+                                        <span class="tech-tag">Delivery</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="service-header mb-3">
+                                        <h3 class="h4 mb-2">لوجستي المبيعات</h3>
+                                        <span class="service-badge">Sales Logistics</span>
+                                    </div>
+                                    <p class="text-muted mb-3">
+                                        تنظيم مسار الطلب من لحظة البيع حتى التسليم، وربط المبيعات
+                                        بالمخزون والشحن عشان التسليم يبقى في وقته.
+                                    </p>
+                                    <ul class="service-features-list mb-4">
+                                        <li class="d-flex align-items-center mb-2">
+                                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                            <span>تنظيم الطلب من تأكيده حتى تسليمه</span>
+                                        </li>
+                                        <li class="d-flex align-items-center mb-2">
+                                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                            <span>إدارة المخزون ونقاط إعادة الطلب</span>
+                                        </li>
+                                        <li class="d-flex align-items-center mb-2">
+                                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                            <span>متابعة الشحن وحالة التسليم</span>
+                                        </li>
+                                        <li class="d-flex align-items-center">
+                                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                            <span>تقارير زمن التسليم والمرتجعات</span>
+                                        </li>
+                                    </ul>
+                                    <div class="service-actions">
+                                        <a href="{{ url_for('contact') }}" class="btn btn-primary me-2">
+                                            <i class="bi bi-rocket-takeoff me-1"></i>اطلب الخدمة
+                                        </a>
+                                        <a href="#sales-logistics-details" class="btn btn-outline-primary smooth-scroll">
+                                            <i class="bi bi-info-circle me-1"></i>تفاصيل أكثر
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
+        </div>
+    </section>
+
+    <!-- تفاصيل لوجستي المبيعات -->
+    <section class="work-process py-5" id="sales-logistics-details">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12 text-center fade-in-up">
+                    <span class="section-badge">لوجستي المبيعات</span>
+                    <h2 class="section-title">مسار الطلب حتى التسليم</h2>
+                    <p class="section-subtitle">أربع خطوات تربط البيع بالمخزون والشحن والتسليم</p>
+                </div>
+            </div>
+            <div class="row stagger-children">
+                <div class="col-lg-3 col-md-6 mb-4 stagger-item">
+                    <div class="process-step text-center p-4 rounded-custom hover-lift">
+                        <div class="step-icon mb-3">
+                            <div class="step-number">1</div>
+                            <i class="bi bi-cart-check process-icon"></i>
+                        </div>
+                        <h5 class="mb-3">استلام الطلب</h5>
+                        <p class="text-muted mb-0">تأكيد الطلب وربطه بقناة البيع والعميل قبل أي حركة مخزون</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 stagger-item">
+                    <div class="process-step text-center p-4 rounded-custom hover-lift">
+                        <div class="step-icon mb-3">
+                            <div class="step-number">2</div>
+                            <i class="bi bi-box-seam process-icon"></i>
+                        </div>
+                        <h5 class="mb-3">تجهيز المخزون</h5>
+                        <p class="text-muted mb-0">حجز الكميات ومراجعة نقاط إعادة الطلب قبل الشحن</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 stagger-item">
+                    <div class="process-step text-center p-4 rounded-custom hover-lift">
+                        <div class="step-icon mb-3">
+                            <div class="step-number">3</div>
+                            <i class="bi bi-truck process-icon"></i>
+                        </div>
+                        <h5 class="mb-3">الشحن والتتبع</h5>
+                        <p class="text-muted mb-0">إخراج الشحنة ومتابعة حالتها حتى تصل لعنوان التسليم</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 stagger-item">
+                    <div class="process-step text-center p-4 rounded-custom hover-lift">
+                        <div class="step-icon mb-3">
+                            <div class="step-number">4</div>
+                            <i class="bi bi-arrow-return-left process-icon"></i>
+                        </div>
+                        <h5 class="mb-3">التسليم والمرتجعات</h5>
+                        <p class="text-muted mb-0">إغلاق التسليم وتسجيل المرتجعات في تقارير زمن التنفيذ</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -526,6 +637,11 @@
                         <li class="mb-2">
                             <a href="{{ url_for('services') }}#business-management" class="text-white-60 hover-white">
                                 إدارة الأعمال
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="{{ url_for('services') }}#sales-logistics" class="text-white-60 hover-white">
+                                لوجستي المبيعات
                             </a>
                         </li>
                     </ul>
